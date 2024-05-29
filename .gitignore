@@ -1,0 +1,22 @@
+# Ignore everything
+/*
+
+# But not these files...
+!.gitignore
+!recentf
+!projects
+!init.el
+!.mc-lists.el
+!abbrev_defs
+
+# Un-ignore folder 'a' and everything inside it recursively
+!config/
+!config/**
+
+# Un-ignore folder 'b' and everything inside it recursively
+!other-packages/
+!other-packages/**
+
+!snippets/
+!snippets/**
+
