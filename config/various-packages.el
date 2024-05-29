@@ -149,7 +149,6 @@
 (require 'visual-regexp-steroids)
 (require 'zoxide)
 (require 'emmet-mode)
-(require 'elgrep)
 ;;====================================
 ;; Recent files
 ;;
