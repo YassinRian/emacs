@@ -106,6 +106,7 @@ TIMEOUT is the time to wait before timing out."
   ("s" (progn (setq my-temporary-hydra-option-selected t) (boon-open-next-line-and-insert)) :exit nil)
   ("j" (progn (setq my-temporary-hydra-option-selected t) (undo)) :exit nil)
   ("F" (progn (setq my-temporary-hydra-option-selected t) (delete-next-char)) :exit nil)
+  (";" (progn (setq my-temporary-hydra-option-selected t) (insert ";")) :exit t)
   )
 
 
