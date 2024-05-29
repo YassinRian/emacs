@@ -3,7 +3,6 @@
 
 # But not these files...
 !.gitignore
-!recentf
 !projects
 !init.el
 !.mc-lists.el
