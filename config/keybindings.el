@@ -61,12 +61,18 @@
 
 ;; --------------- Special map ------------------------------------------
 ;; Dired makes use of Special-mode, so a specific mapping has to be created.
-(add-hook! dired-mode (local-set-key (kbd "g") 'consult-buffer))  ; this can be all changed to dired-mode-map
-(add-hook! dired-mode (local-set-key (kbd "i") 'dired-previous-line))
-(add-hook! dired-mode (local-set-key (kbd "o") 'dired-next-line))
-(add-hook! dired-mode (local-set-key (kbd "j") 'dired-up-directory))
-(add-hook! dired-mode (local-set-key (kbd ";") 'dired-find-file))
-(bind-key "SPC" #'hydra-dired/body dired-mode-map)
+;; (add-hook! dired-mode (local-set-key (kbd "gg") 'consult-buffer))  ; this can be all changed to dired-mode-map
+;; (add-hook! dired-mode (local-set-key (kbd "i") 'dired-previous-line))
+;; (add-hook! dired-mode (local-set-key (kbd "o") 'dired-next-line))
+;; (add-hook! dired-mode (local-set-key (kbd "j") 'dired-up-directory))
+;; (add-hook! dired-mode (local-set-key (kbd ";") 'dired-find-file))
+;; (bind-key "SPC" #'hydra-dired/body dired-mode-map)
+
+
+(bind-keys :map dired-mode-map
+           :prefix-map my-customized-pref-map
+	   :prefix "g"
+	   ("g" . consult-buffer))
 
 
 (defun activate-boon-x-map ()
