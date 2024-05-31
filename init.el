@@ -113,7 +113,7 @@
 ;;; Hooks
 
 ;; Activate eglot when in python
-;;(add-hook 'python-mode-hook 'eglot-ensure)
+(add-hook 'python-mode-hook 'eglot-ensure)
 
 ;; Add the function to eshell-mode-hook
 (add-hook 'eshell-mode-hook 'setup-eshell-abbrevs)

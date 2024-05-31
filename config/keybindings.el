@@ -47,6 +47,7 @@
 (bind-key "f" #'hydra-files/body boon-backward-search-map)   ; w-f File menu
 (bind-key "s" #'hydra-search/body boon-backward-search-map)
 (bind-key "SPC" #'hydra-buffers/body boon-backward-search-map)
+(bind-key "c" #'boon-set-special-state boon-backward-search-map)
 
 ;; Added to boon-forward-search-map
 (bind-key "e" #'er/expand-region boon-forward-search-map)    ; e-e expand selection
@@ -61,20 +62,33 @@
 
 ;; --------------- Special map ------------------------------------------
 ;; Dired makes use of Special-mode, so a specific mapping has to be created.
-;; (add-hook! dired-mode (local-set-key (kbd "gg") 'consult-buffer))  ; this can be all changed to dired-mode-map
-;; (add-hook! dired-mode (local-set-key (kbd "i") 'dired-previous-line))
-;; (add-hook! dired-mode (local-set-key (kbd "o") 'dired-next-line))
-;; (add-hook! dired-mode (local-set-key (kbd "j") 'dired-up-directory))
-;; (add-hook! dired-mode (local-set-key (kbd ";") 'dired-find-file))
-;; (bind-key "SPC" #'hydra-dired/body dired-mode-map)
+
+(bind-key "V" #'boon-set-command-state boon-special-map)
+
+(add-hook! dired-mode (local-set-key (kbd "i") 'dired-previous-line))
+(add-hook! dired-mode (local-set-key (kbd "o") 'dired-next-line))
+(add-hook! dired-mode (local-set-key (kbd "j") 'dired-up-directory))
+(add-hook! dired-mode (local-set-key (kbd ";") 'dired-find-file))
+(add-hook! dired-mode (local-set-key (kbd "e") 'consult-line))
+(add-hook! dired-mode (local-set-key (kbd "v") 'my-wdired))
+
+;;(bind-key "SPC" #'hydra-dired/body dired-mode-map)
 
 
 (bind-keys :map dired-mode-map
-           :prefix-map my-customized-pref-map
+           :prefix-map my-customized-pref-map_1
 	   :prefix "g"
-	   ("g" . consult-buffer))
+	   ("g" . consult-buffer)
+	   ("a" . other-window))
 
+(bind-keys :map dired-mode-map
+           :prefix-map my-customized-pref-map_2
+	   :prefix "w"
+	   ("w" . hydra-windows/body)
+	   ("s" . consult-line)
+	   ("SPC" . hydra-dired/body))
 
+	
 (defun activate-boon-x-map ()
   "Activate boon-x-map."
   (interactive)
@@ -89,6 +103,8 @@
     (define-key boon-special-map "x" nil))
   (message "boon-x-map deactivated"))
 
+;; hook om boon-x-map te deactiveren
+(add-hook 'dired-mode-hook 'deactivate-boon-x-map )
 
 ;; viper
 (autoload 'viper-ex "viper")

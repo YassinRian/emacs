@@ -116,9 +116,14 @@ TIMEOUT is the time to wait before timing out."
 ;;   ("d" (progn (setq my-temporary-hydra-option-selected t) (boon-set-command-state)) :exit t)
 ;;   ) 
 
+ ;; (defun my/check-dired-mode-active (func)
+ ;;    (if (derived-mode-p 'wdired-mode)
+ ;; 	(funcall func)))
+
+;; (my/check-dired-mode-active 'wdired-finish-edit)
 
 (defhydra hydra-change-mode (:color blue :body-pre (insert "f") :idle 1.0 :timeout 0.5)
-  ("d" (progn (delete-char -1) (boon-set-command-state)))
+  ("d" (progn (delete-char -1) (my/check-dired-mode-active 'wdired-finish-edit) (boon-set-command-state)))
   )
 
 

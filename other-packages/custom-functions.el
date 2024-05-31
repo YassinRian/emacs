@@ -194,9 +194,24 @@
 (advice-add 'other-window :after '(lambda (&rest args)
                                           (call-interactively 'hydra-other-win/body)))
 
+;;--------------------------------------------------------
+;; Boon-insert is run after Wdired is activated
+;; =======================================================
 
+(defun my-wdired ()
+  (interactive)
+  (wdired-change-to-wdired-mode))
 
+(advice-add 'my-wdired :after '(lambda (&rest args)
+                                          (call-interactively 'boon-insert)))
 
+;;--------------------------------------------------------
+;; hulpfunctie om te checken of wdired is actief
+;; =======================================================
+
+(defun my/check-dired-mode-active (func)
+    (if (derived-mode-p 'wdired-mode)
+	(funcall func)))
 
 ;;======================================================================================
 
