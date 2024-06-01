@@ -262,6 +262,8 @@
   :config
   (global-undo-tree-mode))
 
+(use-package vundo)
+
 ;; =============== Good-Scroll  ============================
 ;;
 ;; =================================================
@@ -321,3 +323,4 @@
     (doom-themes-org-config))
 
 (use-package scratch)
+

@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: begin_block
+# key: bb
+# --
+{% block $0 %}$1{% endblock %}

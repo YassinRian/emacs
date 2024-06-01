@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: ext_jinja
+# key: ext
+# --
+{% extends $1 %}

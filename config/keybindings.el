@@ -32,11 +32,12 @@
 (bind-key "l" #'yr/avy-run boon-goto-map)                    ; g-l gotoline and search word
 (bind-key "s" #'hydra-selection/body boon-goto-map)
 (bind-key "a" #'other-window boon-goto-map)
+(bind-key "v" #'vundo boon-goto-map)
 
 ;; Added to boon-moves-map
 (bind-key "J" #'join-line boon-moves-map)                    ; S-j join-line
-(bind-key "C-S-k" #'good-scroll-down-full-screen boon-moves-map)
-(bind-key "C-S-l" #'good-scroll-up-full-screen boon-moves-map)
+(bind-key "K" #'good-scroll-down-full-screen boon-moves-map)
+(bind-key "L" #'good-scroll-up-full-screen boon-moves-map)
 (bind-key "f" #'yr/avy-run-in-line boon-moves-map)
 (bind-key "F" #'avy-goto-char-timer boon-moves-map)
 (bind-key "h" #'boon-splice boon-moves-map)
