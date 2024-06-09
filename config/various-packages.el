@@ -130,6 +130,7 @@
 ;;====================================
 (use-package expand-region
   :defer t)
+
 ;;====================================
 ;; Other Packages
 ;; See other-packages folder
@@ -149,6 +150,7 @@
 (require 'visual-regexp-steroids)
 (require 'zoxide)
 (require 'emmet-mode)
+
 ;;====================================
 ;; Recent files
 ;;
@@ -323,4 +325,5 @@
     (doom-themes-org-config))
 
 (use-package scratch)
+
 

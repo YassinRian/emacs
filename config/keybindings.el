@@ -54,6 +54,8 @@
 (bind-key "e" #'er/expand-region boon-forward-search-map)    ; e-e expand selection
 (bind-key "SPC" #'consult-line boon-forward-search-map)
 (bind-key "d" #'consult-dir boon-forward-search-map)
+(bind-key "i" #'crux-smart-open-line-above boon-forward-search-map)
+(bind-key "o" #'crux-smart-open-line boon-forward-search-map)
 
 ;; Added to phi-default-search-map
 (bind-key "C-." #'phi-search-again-or-next phi-search-default-map)
@@ -69,8 +71,8 @@
 (add-hook! dired-mode (local-set-key (kbd "i") 'dired-previous-line))
 (add-hook! dired-mode (local-set-key (kbd "o") 'dired-next-line))
 (add-hook! dired-mode (local-set-key (kbd "j") 'dired-up-directory))
-(add-hook! dired-mode (local-set-key (kbd ";") 'dired-find-file))
-(add-hook! dired-mode (local-set-key (kbd "e") 'consult-line))
+(add-hook! dired-mode (local-set-key (kbd ";") 'my-dired-open))
+(add-hook! dired-mode (local-set-key (kbd "e") 'my-consult-line))
 (add-hook! dired-mode (local-set-key (kbd "v") 'my-wdired))
 
 ;;(bind-key "SPC" #'hydra-dired/body dired-mode-map)

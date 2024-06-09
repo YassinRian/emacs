@@ -213,6 +213,70 @@
     (if (derived-mode-p 'wdired-mode)
 	(funcall func)))
 
+
+;;--------------------------------------------------------
+;; hulpfunctie om in dired na Consult-line meteen in de folder
+;; te gaan of het bestand te openen
+;; =======================================================
+
+(defun my-consult-line ()
+  (interactive)
+  (consult-line))
+
+(advice-add 'my-consult-line :after '(lambda (&rest args)
+                                   (call-interactively 'dired-find-file)))
+;;--------------------------------------------------------
+;; hulpfunctie om te checken of the entry in dired een bestand is of een directory
+;; in geval van een bestand, dat wordt weergegeven in een nieuwe window
+;; =======================================================
+
+;; (defun my-dired-open ()
+;;   "In dired, open the file or directory in different ways.
+;; If it is a directory, use `dired-find-file`.
+;; If it is a file, use `dired-find-file-other-window`."
+;;   (interactive)
+;;   (let ((file (dired-get-file-for-visit)))
+;;     (if (file-directory-p file)
+;;         (dired-find-file)
+;;       (dired-find-file-other-window))))
+
+
+
+(defun my-dired-find-file-other-window-vertically ()
+  "Open the file at point in another window with a vertical split, reusing existing windows."
+  (interactive)
+  (let ((file (dired-get-file-for-visit)))
+    (if-let ((win (get-window-with-predicate
+                   (lambda (w)
+                     (string= (buffer-file-name (window-buffer w)) file)))))
+        (select-window win)
+      (let ((target-window (if (one-window-p)
+                               (split-window-right)
+                             (next-window (selected-window) 1 'visible))))
+        (select-window target-window)
+        (find-file file)))))
+
+(defun my-dired-open ()
+  "In dired, open the file or directory in different ways.
+If it is a directory, use `dired-find-file`.
+If it is a file, use `my-dired-find-file-other-window-vertically`."
+  (interactive)
+  (let ((file (dired-get-file-for-visit)))
+    (if (file-directory-p file)
+        (dired-find-file)
+      (my-dired-find-file-other-window-vertically))))
+
+;;--------------------------------------------------------
+;; hulpfunctie om detail te verbergen in dired-mode
+;; 
+;; =======================================================
+
+(defun my-dired-mode-setup ()
+  "Custom settings for `dired-mode`."
+  (dired-hide-details-mode 1))
+
+(add-hook 'dired-mode-hook 'my-dired-mode-setup)
+
 ;;======================================================================================
 
 (provide 'custom-functions)
