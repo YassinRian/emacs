@@ -211,6 +211,7 @@ TIMEOUT is the time to wait before timing out."
 
    "buffer funcs"
    (("k" kill-buffer "Close buffer")
+    ("K" only-current-buffer "Kill other buffers")
     ("r" rename-buffer "Rename buffer")
     ("w" write-file "Write to new file")
     ("n" scratch "New scratch buffer"))
@@ -235,22 +236,23 @@ TIMEOUT is the time to wait before timing out."
 (pretty-hydra-define hydra-files (:color blue :quit-key "q")
   (
    "Find file"
-   (("SPC" project-find-file "Find in Project" :exit t)
-    ("g" dired-recent-open "Search in dir" :exit t)
-    ("d" dired "Dired" :exit t)
-    ("v" find-file "Find file" :exit t))
+   (
+    ("a" dired-recent-open "Search file in dirs" :exit t)
+    ("d" consult-dir-dired "Show current folder" :exit t)
+    ("f" find-file "Find file" :exit t)
+    ("r" consult-recent-file "Search recent files" :exit t)
+   )
    
-   "Go to file in recent dir"
-   (("f" consult-dir "Find in recent dir" :exit t)
-    ("r" consult-recent-file "Search recent files":exit t))
-    
-   "Write file"
-   (("w" write-file "Write to new file" :exit t))
+   "Write current buffer to new file"
+   (
+    ("w" write-file "Write to new file" :exit t)
+   )
 
    "Search"
-   (("s" find-file-in-project-by-selected "Search by name")
-    ("g" find-file-in-project "Search in project")
-    ("t" consult-find "Consult-find"))
+   (
+    ("t" consult-find "Consult-find")
+    ("g" search-string-in-directory "Search string in dir")
+   )
    ))
 
 

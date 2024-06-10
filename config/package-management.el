@@ -46,7 +46,7 @@
 ;; Install `use-package' support
 (elpaca elpaca-use-package
         (elpaca-use-package-mode)
-        (setq elpaca-use-package-by-default t))
+        (setq use-package-always-ensure t))
 
 (elpaca-wait)
 
@@ -57,7 +57,7 @@
 ;; Open report with `use-package-report'
 
 
-;; Externally install things automatically. Ex. npm i some-language-server
-(use-package use-package-ensure-system-package
-  :hook lsp-mode)
+;; ;; Externally install things automatically. Ex. npm i some-language-server
+;; (use-package use-package-ensure-system-package
+;;   :hook lsp-mode)
 

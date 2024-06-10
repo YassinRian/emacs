@@ -186,7 +186,10 @@
   :ensure t)
   
 (use-package consult-dir
-  :ensure t)
+  :ensure t
+  :config
+  (setq consult-dir-default-command #'consult-dir-dired)
+)
   
 
 

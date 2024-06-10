@@ -23,61 +23,34 @@
   :custom (sp-escape-quotes-after-insert nil))
 
 ;;====================================
-;; Corfu
+;; Company mode
 ;;
 ;;====================================
-  
-(use-package corfu
-  ;; Optional customizations
 
-  :bind (:map corfu-map
-	  
-	  ("<escape>". corfu-quit)
-          ("<return>" . corfu-insert)
-          ("M-d" . corfu-show-documentation)
-          ("M-l" . 'corfu-show-location)
-          ("TAB" . corfu-next)
-          ([tab] . corfu-next)
-          ("S-TAB" . corfu-previous)
-          ([backtab] . corfu-previous))
-  :custom
-  
-  (tab-always-indent 'complete)
-  (completion-cycle-threshold nil)      ; Always show candidates in menu
-  (corfu-auto t)
-  (corfu-quit-no-match t)
-  (corfu-auto-prefix 2)
-  (corfu-auto-delay 0.25)
-  
-  (corfu-count 14)
-  (corfu-scroll-margin 8)
-  (corfu-cycle nil)
-  ;; (corfu-echo-documentation nil)        ; Already use corfu-doc
-  (corfu-separator ?\s)                 ; Necessary for use with orderless
-  (corfu-quit-no-match 'separator)
-  (corfu-preview-current 'insert)       ; Preview current candidate?
-  (corfu-preselect-first t)  
-  
-  ;; Enable Corfu only for certain modes.
-  :hook ((prog-mode . corfu-mode)
-         (shell-mode . corfu-mode)
-         (eshell-mode . corfu-mode)
-	 (clojure-mode . corfu-mode)
-	 (javascript-mode . corfu-mode)
-	 (elisp-mode . corfu-mode))
-
-  :init
-  (global-corfu-mode))
-
-
-(use-package kind-icon
+(use-package company
   :ensure t
-  :after corfu
+  :diminish
   :custom
-  (kind-icon-blend-background t)
-  (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
-  :config
-  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+  (company-idle-delay .1)
+  (company-minimum-prefix-length 1)
+  (global-company-mode t))
+
+;; is een beetje traag
+
+(use-package company-flx
+  :after company)
+
+(use-package company-fuzzy
+  :hook (company-mode . company-fuzzy-mode)
+  :init
+  (setq company-fuzzy-sorting-backend 'flx
+        company-fuzzy-reset-selection t
+        company-fuzzy-prefix-on-top nil
+        company-fuzzy-trigger-symbols '("." "->" "<" "\"" "'" "@"))
+  :custom
+  (global-company-fuzzy-mode 1))
+
+
 
 ;;====================================
 ;; Clojure mode
@@ -121,6 +94,8 @@
 ;;====================================
 
 (add-hook 'python-mode-hook #'eglot-ensure)
+(add-hook 'python-mode-hook #'company-mode)
+
 ;;====================================
 ;; Javascript
 ;;
@@ -128,13 +103,45 @@
 
 ;; dit moet nog gefixed worden !!!!!
 
+(use-package js-ts-mode
+  :ensure nil
+  :hook ((js-ts-mode . eglot-ensure)
+         (js-ts-mode . company-mode)))
+
+
 ;;(dolist (hook-yassin '(js2-mode-hook tsx-mode-hook web-mode-hook))
   ;;(add-hook hook-yassin #'eglot-ensure))
 
 ;;====================================
-;; Emmet mode
+;; Emmet mode (zie init.el)
 ;;
 ;;====================================
 
+;;====================================
+;; typescript mode
+;;
+;; https://merrick.luois.me/posts/typescript-in-emacs-29
+;; https://www.reddit.com/r/emacs/comments/1apj22g/typescript_treesitter_mode_syntax_highlighting/  ==> gebruikt veel packages met elpaca
+;;
+;;====================================
 
+(after! treesit
+  (setq treesit-language-source-alist
+        '((typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src" nil nil)
+          (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src" nil nil))))
+
+
+(use-package tsx-ts-mode
+  :ensure nil
+  :hook ((tsx-ts-mode . eglot-ensure)
+         (tsx-ts-mode . company-mode)))
+
+ (use-package typescript-ts-mode
+  :ensure nil
+  :mode (("\\.ts\\'" . typescript-ts-mode)
+	("\\.tsx\\'" . tsx-ts-mode))
+  :config
+  (add-hook! '(typescript-ts-mode-hook tsx-ts-mode-hook) #'eglot-ensure)
+  (add-hook! '(typescript-ts-mode-hook tsx-ts-mode-hook) #'company-mode)
+  )
 

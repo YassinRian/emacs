@@ -28,6 +28,14 @@
   (other-window 1))
 
 ;;--------------------------------------------------------
+;; kill all buffers except the current one
+;; =======================================================
+
+(defun only-current-buffer () 
+  (interactive)                                                                   
+    (mapc 'kill-buffer (cdr (buffer-list (current-buffer)))))
+
+;;--------------------------------------------------------
 ;; avy-run - this function will go to a line and a word can be searched in that line
 ;; =======================================================
 (defun yr/avy-run (arg)
@@ -108,6 +116,19 @@
  "Function to run when switching to another window."
     (when (equal (buffer-name) "*eshell*")
       (boon-set-insert-state)))
+
+;;--------------------------------------------------------
+;; switch Grep mode to command-state mode
+;; =======================================================
+
+;; Define a function to activate boon-set-command-state for *search-string* buffer
+(defun my-check-search-string-buffer ()
+  "Activate boon-set-command-state when switching to *search-string* buffer."
+  (when (string-equal (buffer-name) "*search-string*")
+    (boon-set-command-state)))
+
+;; Add the function to window-configuration-change-hook
+(add-hook 'window-configuration-change-hook 'my-check-search-string-buffer)
 
 ;;--------------------------------------------------------
 ;; toggle-window
@@ -278,5 +299,55 @@ If it is a file, use `my-dired-find-file-other-window-vertically`."
 (add-hook 'dired-mode-hook 'my-dired-mode-setup)
 
 ;;======================================================================================
+;; Dit werkt
+
+;; (defun search-flaskr-in-directory (search-string)
+;;   "Search for SEARCH-STRING in all files within default-directory using find and awk."
+;;   (interactive "sEnter search string: ")
+;;   (let* ((directory (expand-file-name default-directory))
+;;          (search-string (or search-string "flaskr"))
+;;          (command (format "find %s -type f -exec awk '/%s/ {printf \"%%-30s %%-10s %%s\\n\", FILENAME, FNR, $0}' {} +"
+;;                           (shell-quote-argument directory)
+;;                           (shell-quote-argument search-string))))
+;;     (compilation-start command 'grep-mode)))
+
+
+;; (defcustom consult-dir-custom-command #'search-flaskr-in-directory
+;;   "Custom command to run after selecting a directory using `consult-dir'.
+
+;; The default is to invoke `search-flaskr-in-directory' from the chosen
+;; directory. This can be customized to run any arbitrary function
+;; (of no variables), which will be called with `default-directory'
+;; set to the directory chosen using `consult-dir'."
+;;   :group 'consult-dir
+;;   :type '(function :tag "Custom function"))
+
+;;======================================================================================
+
+(require 'compile)
+
+(defun search-string-in-directory (search-string)
+  "Search for SEARCH-STRING in all files within default-directory using find and awk."
+  (interactive "sEnter search string: ")
+  (let* ((directory (expand-file-name default-directory))
+         (command (format "find %s -type f -exec awk '/%s/ {printf \"%%s:%%d:\\n\", FILENAME, FNR}' {} +"
+                          (shell-quote-argument directory)
+                          (shell-quote-argument search-string))))
+    (compilation-start command 'grep-mode (lambda (mode-name) "*search-string*"))))
+
+(add-to-list 'compilation-error-regexp-alist 'search-string)
+(add-to-list 'compilation-error-regexp-alist-alist
+             '(search-string "^\\(.+\\):\\([0-9]+\\):" 1 2))
+
+
+(defcustom consult-dir-custom-command #'search-string-in-directory
+  "Custom command to run after selecting a directory using `consult-dir'.
+
+The default is to invoke `search-string-in-directory' from the chosen
+directory. This can be customized to run any arbitrary function
+(of no variables), which will be called with `default-directory'
+set to the directory chosen using `consult-dir'."
+  :group 'consult-dir
+  :type '(function :tag "Custom function"))
 
 (provide 'custom-functions)
