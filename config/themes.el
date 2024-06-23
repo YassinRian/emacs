@@ -33,7 +33,7 @@
 
 ) 
 
-(after! ef-themes (load-theme 'ef-bio :no-confirm) )
+(after! ef-themes (load-theme 'modus-vivendi :no-confirm) )
 
 
 

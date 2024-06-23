@@ -24,25 +24,57 @@
 ;;
 ;; Better completion UI for the minibuffer (i.e for M-x)
 ;;====================================
-(use-package vertico
-  :custom
-  (vertico-scroll-margin 2)
-  :init
-  (vertico-mode)
-  :bind (:map vertico-map
-              ("C-<backspace>" . vertico-directory-up))
-  )
-  
-;;====================================
-;; Which-key
-;;
-;;====================================
 
-(use-package which-key
-  :defer 0.2
-  :delight
-  :custom (which-key-idle-delay 0.3)
-  :config (which-key-mode))
+;; (use-package vertico
+;;   :custom
+;;   (vertico-scroll-margin 2)
+;;   :init
+;;   (vertico-mode)
+;;   :bind (:map vertico-map
+;;               ("C-<backspace>" . vertico-directory-up))
+;;   )
+
+;;=========================
+
+;; Init vertico for item list selection
+(use-package vertico
+  ;; Load extensions
+  :ensure ( :files ( :defaults "extensions/*"))
+  :functions vertico-mode
+  :custom
+  ( vertico-count 20)
+  ( vertico-cycle t)
+  ( vertico-sort-function #'vertico-sort-history-alpha)
+  :config
+  (defun mo-vertico-combined-sort (candidates)
+    "Sort CANDIDATES using both display-sort-function and vertico-sort-function."
+    (let ((candidates
+           (let ((display-sort-func (vertico--metadata-get 'display-sort-function)))
+             (if display-sort-func
+                 (funcall display-sort-func candidates)
+               candidates))))
+      (if vertico-sort-function
+          (funcall vertico-sort-function candidates)
+        candidates)))
+
+  (vertico-mode))
+
+
+;; Init vertico-directory for directory navigation commands
+(use-package vertico-directory
+  :after vertico
+  :ensure nil
+  :bind
+  ( :map vertico-map
+    ("C-<backspace>" . vertico-directory-up)
+    ))
+
+  ;; Init vertico-multiform for per command vertico configuration
+(use-package vertico-multiform
+  :after vertico
+  :ensure nil
+  :config
+  (vertico-multiform-mode))
 
 ;;====================================
 ;; Helpful
@@ -89,11 +121,42 @@
 ;; Orderless
 ;;
 ;;====================================
+
+;; (use-package orderless
+;;   :custom
+;;   (completion-category-defaults nil)
+;;   (completion-category-overrides '((file (styles . (partial-completion)))))
+;;   (completion-styles '(orderless)))
+
+;; ======================================
+;; afkomstig van Modus_Operandi config
+;; Init orderless for advanced (e.g. fuzzy) completion styles
+
 (use-package orderless
+  :demand t
+  :functions orderless-escapable-split-on-space
+  :config
+  ;; Set matching style to regexp and literal
   :custom
-  (completion-category-defaults nil)
-  (completion-category-overrides '((file (styles . (partial-completion)))))
-  (completion-styles '(orderless)))
+  ( orderless-matching-styles '( orderless-regexp orderless-literal))
+  ( orderless-component-separator #'orderless-escapable-split-on-space)
+  ( orderless-style-dispatchers '( mo-orderless-exclude-dispatcher))
+  ( completion-styles '( orderless basic))
+  :config
+  (setq completion-category-defaults nil)
+  (setq completion-category-overrides '( ( file ( styles basic partial-completion))))
+
+  ;; Add exclude pattern style
+  (defun mo-orderless-exclude-dispatcher (pattern _index _total)
+    "Handle orderless exclude pattern."
+    (cond
+     ((equal "!" pattern)
+      '( orderless-literal . ""))
+     ((string-prefix-p "!" pattern)
+      `( orderless-without-literal . ,(substring pattern 1))))))
+
+
+
 ;;====================================
 ;; Editorconfig
 ;;
@@ -124,12 +187,6 @@
 ;;====================================
 (use-package crux
   :defer t)
-;;====================================
-;; Expand-region
-;;
-;;====================================
-(use-package expand-region
-  :defer t)
 
 ;;====================================
 ;; Other Packages
@@ -150,7 +207,8 @@
 (require 'visual-regexp-steroids)
 (require 'zoxide)
 (require 'emmet-mode)
-
+(require 'burly)
+(require 'persp-mode)
 ;;====================================
 ;; Recent files
 ;;
@@ -188,17 +246,9 @@
 (use-package consult-dir
   :ensure t
   :config
-  (setq consult-dir-default-command #'consult-dir-dired)
+  (setq consult-dir-default-command #'consult-dir-dired) ;; default was find-file, maar deze is beter
 )
   
-
-
-;; =============== Dired Ranger  ============================
-;;
-;; =================================================
-
-(use-package dired-ranger)
-
 ;; =============== Good-Scroll  ============================
 ;;
 ;; =================================================
@@ -329,4 +379,8 @@
 
 (use-package scratch)
 
+(use-package affe :defer t)
 
+(use-package direnv
+ :config
+ (direnv-mode))

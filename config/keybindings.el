@@ -31,7 +31,7 @@
 (bind-key "g" #'consult-buffer boon-goto-map)                ; g-g seach buffer
 (bind-key "l" #'yr/avy-run boon-goto-map)                    ; g-l gotoline and search word
 (bind-key "s" #'hydra-selection/body boon-goto-map)
-(bind-key "a" #'other-window boon-goto-map)
+(bind-key "a" #'my-other-window boon-goto-map)
 (bind-key "v" #'vundo boon-goto-map)
 
 ;; Added to boon-moves-map
@@ -51,7 +51,7 @@
 (bind-key "c" #'boon-set-special-state boon-backward-search-map)
 
 ;; Added to boon-forward-search-map
-(bind-key "e" #'er/expand-region boon-forward-search-map)    ; e-e expand selection
+(bind-key "e" #'kmacro-end-and-call-macro boon-forward-search-map)    ; e-e expand selection
 (bind-key "SPC" #'consult-line boon-forward-search-map)
 (bind-key "d" #'consult-dir boon-forward-search-map)
 (bind-key "i" #'crux-smart-open-line-above boon-forward-search-map)
@@ -89,7 +89,9 @@
 	   :prefix "w"
 	   ("w" . hydra-windows/body)
 	   ("s" . consult-line)
-	   ("SPC" . hydra-dired/body))
+	   ("SPC" . hydra-dired/body)
+	   ("f" . hydra-files/body))
+
 
 	
 (defun activate-boon-x-map ()
@@ -113,7 +115,14 @@
 (autoload 'viper-ex "viper")
 (bind-key ":" #'viper-ex boon-moves-map)
 
-)))
+
+;; vertico
+
+(bind-key "C-l" #'next-line vertico-map)
+(bind-key "C-k" #'previous-line vertico-map)
+
+;;==========================================================================================
+))) ;; after closures
 
 
 	

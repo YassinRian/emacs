@@ -123,8 +123,11 @@ TIMEOUT is the time to wait before timing out."
 ;; (my/check-dired-mode-active 'wdired-finish-edit)
 
 (defhydra hydra-change-mode (:color blue :body-pre (insert "f") :idle 1.0 :timeout 0.5)
-  ("d" (progn (delete-char -1) (my/check-dired-mode-active 'wdired-finish-edit) (boon-set-command-state)))
-  )
+  ("d" (progn (delete-char -1)
+	      (my/check-dired-mode-active 'wdired-finish-edit)
+	      (my-corfu-quit)
+	      (boon-set-command-state))
+              ))
 
 
 ;; Hydra for vertico mode

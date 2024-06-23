@@ -122,13 +122,20 @@
 ;; =======================================================
 
 ;; Define a function to activate boon-set-command-state for *search-string* buffer
-(defun my-check-search-string-buffer ()
-  "Activate boon-set-command-state when switching to *search-string* buffer."
-  (when (string-equal (buffer-name) "*search-string*")
-    (boon-set-command-state)))
+;; (defun my-check-search-string-buffer ()
+;;   "Activate boon-set-command-state when switching to *search-string* buffer."
+;;   (when (string-equal (buffer-name) "*search-string*")
+;;     (boon-set-command-state)))
 
 ;; Add the function to window-configuration-change-hook
-(add-hook 'window-configuration-change-hook 'my-check-search-string-buffer)
+;;(add-hook 'window-configuration-change-hook 'my-check-search-string-buffer)
+
+(defun my-check-special-buffers ()
+  "Activate boon-set-command-state when switching to *search-string* or *Occur* buffers."
+  (when (member (buffer-name) '("*search-string*" "*Occur*"))
+    (boon-set-command-state)))
+
+(add-hook 'buffer-list-update-hook 'my-check-special-buffers)
 
 ;;--------------------------------------------------------
 ;; toggle-window
@@ -298,31 +305,13 @@ If it is a file, use `my-dired-find-file-other-window-vertically`."
 
 (add-hook 'dired-mode-hook 'my-dired-mode-setup)
 
-;;======================================================================================
-;; Dit werkt
-
-;; (defun search-flaskr-in-directory (search-string)
-;;   "Search for SEARCH-STRING in all files within default-directory using find and awk."
-;;   (interactive "sEnter search string: ")
-;;   (let* ((directory (expand-file-name default-directory))
-;;          (search-string (or search-string "flaskr"))
-;;          (command (format "find %s -type f -exec awk '/%s/ {printf \"%%-30s %%-10s %%s\\n\", FILENAME, FNR, $0}' {} +"
-;;                           (shell-quote-argument directory)
-;;                           (shell-quote-argument search-string))))
-;;     (compilation-start command 'grep-mode)))
 
 
-;; (defcustom consult-dir-custom-command #'search-flaskr-in-directory
-;;   "Custom command to run after selecting a directory using `consult-dir'.
-
-;; The default is to invoke `search-flaskr-in-directory' from the chosen
-;; directory. This can be customized to run any arbitrary function
-;; (of no variables), which will be called with `default-directory'
-;; set to the directory chosen using `consult-dir'."
-;;   :group 'consult-dir
-;;   :type '(function :tag "Custom function"))
-
-;;======================================================================================
+;;--------------------------------------------------------
+;; Hulpfunctie om te zoeken naar een specifieke string in
+;; alle bestanden van een bepaalde folder
+;; 
+;; =======================================================
 
 (require 'compile)
 
@@ -350,4 +339,48 @@ set to the directory chosen using `consult-dir'."
   :group 'consult-dir
   :type '(function :tag "Custom function"))
 
+
+;;--------------------------------------------------------
+;;
+;; 
+;; =======================================================
+
+
+(defun activate-next-word-region ()
+  "Move to the next word and activate the region for that word."
+  (interactive)
+  (if (looking-at "\\w+")
+      (goto-char (match-end 0)))
+  (if (re-search-forward "\\w+" nil t)
+      (progn
+        (set-mark (match-end 0))
+        (goto-char (match-beginning 0))
+        (setq deactivate-mark nil))
+    (message "No more words found")))
+
+;;--------------------------------------------------------
+;; corfu functie om te quiten wanneer hydra-change-mode is
+;; activated
+;; =======================================================
+
+;; Function to quit Corfu
+(defun my-corfu-quit ()
+  "Quit Corfu completion."
+  (when corfu--candidates
+    (corfu-quit)))
+
+;;--------------------------------------------------------
+;; my-other-window is gebonden aan "ga" zodat the boon-insert-state wordt
+;; toegepast op eshell
+;; =======================================================
+
+(defun my-other-window ()
+  (interactive)
+  (other-window 1))
+
+(advice-add 'my-other-window :after '(lambda (&rest args)
+                                  (call-interactively 'my-switch-window-hook)))
+
+
+;;=============================================================================================================
 (provide 'custom-functions)
