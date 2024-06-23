@@ -7,6 +7,7 @@
 !init.el
 !.mc-lists.el
 !abbrev_defs
+!early-init.el
 
 # Un-ignore folder 'a' and everything inside it recursively
 !config/
