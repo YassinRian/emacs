@@ -9,7 +9,7 @@
 (setq
  ;;
  ;; GC config
- gc-cons-threshold   most-positive-fixnum ; Stop GC at startup. MUST be reset later to avoid freezes. gcmh will manage this
+ gc-cons-threshold 200000000 ; Stop GC at startup. MUST be reset later to avoid freezes. gcmh will manage this
  read-process-output-max (* 16 1024 1024)     ; LSP-mode performance tweak (16mb)
 
 
@@ -92,6 +92,9 @@
   ;; line is too long" whatevers
   ;; Annoying errors got me acting unwise
   (setq native-comp-async-report-warnings-errors nil))
+  
+ 
+ (setenv "LSP_USE_PLISTS" "true") ;; in early-init.el
   
   
 ;;; ======================= Functions to be loaded before packages ======================

@@ -382,5 +382,43 @@ set to the directory chosen using `consult-dir'."
                                   (call-interactively 'my-switch-window-hook)))
 
 
+;;--------------------------------------------------------
+;; custom function to duplicate a file in dired, added to keybindings (see dired hydra)
+;; =======================================================
+(defun dired-duplicate-this-file (suffix)
+  "Duplicate file on this line."
+  (interactive (list (read-string "Suffix: " "_COPY")))
+  (dired-do-copy-regexp "\\(.*\\)\\.\\(.*\\)"
+                        (concat "\\1" suffix ".\\2"))
+  )
 ;;=============================================================================================================
+;;--------------------------------------------------------
+;; custom function to combine boon-smarter-forward & crux-smart-open-line
+;; =======================================================
+
+(defun my-boon-smarter-forward-advice (orig-fun &rest args)
+  "Advice for `boon-smarter-forward` to run `crux-smart-open-line` when the end of the buffer is reached."
+  (if (eobp)
+      (boon-open-next-line-and-insert)
+    (apply orig-fun args)))
+
+(advice-add 'boon-smarter-forward :around #'my-boon-smarter-forward-advice)
+
+;;=============================================================================================================
+;;--------------------------------------------------------
+;; custom function to duplicate current screen and split-window-horizontally
+;; =======================================================
+
+(defun duplicate-and-split-window-horizontally ()
+  "Duplicate the current window and split it horizontally."
+  (interactive)
+  (let ((current-buffer (current-buffer)))
+    (split-window-horizontally)
+    (other-window 1)
+    (switch-to-buffer current-buffer)))
+
+
+
+
+
 (provide 'custom-functions)

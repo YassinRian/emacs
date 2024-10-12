@@ -8,6 +8,7 @@
 	forward-char
 	mc/keyboard-quit
 	move-end-of-line
+	my-example-hydra/lambda-d
 	next-line
 	previous-line
 	self-insert-command
@@ -21,5 +22,6 @@
 	delete-backward-char
 	hydra-change-mode/body
 	hydra-change-mode/lambda-d-and-exit
+	python-indent-dedent-line-backspace
 	undefined
 	))

@@ -1,4 +1,5 @@
 ;;; Various-packages                                         -*- lexical-binding: t -*-
+
 ;;; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ;;====================================
@@ -209,6 +210,9 @@
 (require 'emmet-mode)
 (require 'burly)
 (require 'persp-mode)
+(require 'fzf)
+(require 'sk-org)
+(require 'eglot-java)
 ;;====================================
 ;; Recent files
 ;;
@@ -384,3 +388,12 @@
 (use-package direnv
  :config
  (direnv-mode))
+
+;; nodig voor de copy, move, past functie in dired
+(use-package dired-ranger)
+  
+(use-package which-key
+  :defer 0.2
+  :delight
+  :custom (which-key-idle-delay 0.5)
+  :config (which-key-mode))

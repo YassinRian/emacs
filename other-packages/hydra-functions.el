@@ -2,7 +2,7 @@
 
 ;;; =========================================== hydra timer function ============================================================;;;
 
- (require 'pretty-hydra)
+(require 'pretty-hydra)
 
 
 (defvar my-temporary-hydra-timer nil
@@ -10,10 +10,10 @@
 
 (defvar my-temporary-hydra-option-selected nil
   "Flag to indicate if an option has been selected in my-temporary-hydra.")
-    
+
 (defvar my-temporary-original-cursor-color nil
   "Variable to store the original cursor color.")
- 
+
 (defvar my-hydra-message nil
   "variable to store the hydra message.")
 
@@ -51,8 +51,8 @@ HYDRA-SYMBOL is the symbol representing the hydra."
 ;;       (insert (char-to-string activation-char)))
 ;;     (setq hydra-deactivate t)
 ;;     (hydra-keyboard-quit)))
-    
-    
+
+
 (defun my-temporary-hydra-wrapper (activation-char hydra timeout)
   "Create a temporary hydra with options and remove it after a timeout if no option is selected within TIMEOUT seconds.
 ACTIVATION-CHAR is the character to be inserted upon timeout.
@@ -64,7 +64,7 @@ TIMEOUT is the time to wait before timing out."
          (timeout-milliseconds (truncate (* 1000 (mod timeout 1))))  ;; Milliseconds part of the timeout
          (timeout-fraction (truncate (* 1000 (mod timeout 1))))  ;; Fractional part of the timeout
          (timeout-string (format "%d.%d" timeout-seconds timeout-fraction)))  ;; Combined seconds and milliseconds
-         (setf my-temporary-original-cursor-color (frame-parameter nil 'cursor-color))
+    (setf my-temporary-original-cursor-color (frame-parameter nil 'cursor-color))
     (setq my-temporary-hydra-timer
           (run-at-time
            timeout-string
@@ -81,7 +81,7 @@ TIMEOUT is the time to wait before timing out."
   ("f" avy-goto-char-in-line "go to char")
   ("n" avy-next "go to next")
   ("p" avy-prev "go to prev")
-) 
+  ) 
 
 ;; (defhydra hydra-files (:hint nil)
 ;;   "
@@ -112,13 +112,13 @@ TIMEOUT is the time to wait before timing out."
 
 ;; ;; ;; Hydra to switch state from Boon-insert-map
 ;; (defhydra my-example-hydra_2 (:hint nil :idle 10)
-  
+
 ;;   ("d" (progn (setq my-temporary-hydra-option-selected t) (boon-set-command-state)) :exit t)
 ;;   ) 
 
- ;; (defun my/check-dired-mode-active (func)
- ;;    (if (derived-mode-p 'wdired-mode)
- ;; 	(funcall func)))
+;; (defun my/check-dired-mode-active (func)
+;;    (if (derived-mode-p 'wdired-mode)
+;; 	(funcall func)))
 
 ;; (my/check-dired-mode-active 'wdired-finish-edit)
 
@@ -127,18 +127,18 @@ TIMEOUT is the time to wait before timing out."
 	      (my/check-dired-mode-active 'wdired-finish-edit)
 	      (my-corfu-quit)
 	      (boon-set-command-state))
-              ))
+   ))
 
 
 ;; Hydra for vertico mode
- (defhydra hydra-vertico (:hint nil :color blue)
- ("i" (progn (setq my-temporary-hydra-option-selected t) (vertico-previous)) :exit nil)
- ("o" (progn (setq my-temporary-hydra-option-selected t) (vertico-next)) :exit nil)
- ) 
+(defhydra hydra-vertico (:hint nil :color blue)
+  ("i" (progn (setq my-temporary-hydra-option-selected t) (vertico-previous)) :exit nil)
+  ("o" (progn (setq my-temporary-hydra-option-selected t) (vertico-next)) :exit nil)
+  ) 
 
 ;; Hydra for vertico mode
- (defhydra hydra-other-win (:hint nil :color blue)
-   ("a" other-window :exit nil)) 
+(defhydra hydra-other-win (:hint nil :color blue)
+  ("a" other-window :exit nil)) 
 
 
 ;; ----------------- Pretty hydra's -----------------------
@@ -150,6 +150,7 @@ TIMEOUT is the time to wait before timing out."
     ("c" ace-swap-window "swap" :exit nil)
     ("m" delete-other-windows-except-active "maximize")
     ("t" toggle-window-split)
+    ("d" duplicate-and-split-window-horizontally "duplicate")
     )
    
    "Split"
@@ -162,6 +163,11 @@ TIMEOUT is the time to wait before timing out."
     ("k" balance-windows "balance")
     ("l" fit-window-to-buffer-width "fit")
     ("h" widen-window-incrementally "widen" :exit nil)
+    )
+   "Winner-mode"
+   (
+    ("j" winner-undo "Previous layout" :exit nil)
+    (";" winner-redo "Next layout" :exit nil)
     )
    ))
 
@@ -207,7 +213,8 @@ TIMEOUT is the time to wait before timing out."
   (
    "Navigate"
    (("j" previous-buffer :exit nil)
-    (";" next-buffer :exit nil))
+    (";" next-buffer :exit nil)
+    ("SPC" crux-switch-to-previous-buffer "Toggle prev buffer"))
 
    "Open in other Win"
    (("b" split-window-right "Open buffer"))
@@ -219,18 +226,20 @@ TIMEOUT is the time to wait before timing out."
     ("w" write-file "Write to new file")
     ("n" scratch "New scratch buffer"))
    ))
-  
+
 
 (pretty-hydra-define hydra-dired (:color blue :quit-key "q")
   (
    "Copy/Move/Paste"
    (("w" dired-ranger-copy "Copy" :exit nil)
     ("x" dired-ranger-move "Move" :exit nil)
-    ("y" dired-ranger-paste "Paste" :exit nil))
+    ("y" dired-ranger-paste "Paste" :exit nil)
+    ("d" dired-duplicate-this-file "Duplicate" :exit nil)
+    ("e" my-wdired "Edit"))
 
    "De/Activate x-map"
    (("a" activate-boon-x-map "Activate" :exit t)
-    ("d" deactivate-boon-x-map "Deactivate" :exit t))
+    ("A" deactivate-boon-x-map "Deactivate" :exit t))
 
    "Revert buffer"
    (("r" revert-buffer "Refresh" :exit t))
@@ -244,18 +253,18 @@ TIMEOUT is the time to wait before timing out."
     ("d" consult-dir-dired "Show current folder" :exit t)
     ("f" find-file "Find file" :exit t)
     ("r" consult-recent-file "Search recent files" :exit t)
-   )
+    )
    
    "Write current buffer to new file"
    (
     ("w" write-file "Write to new file" :exit t)
-   )
+    )
 
    "Search"
    (
     ("t" consult-find "Consult-find")
     ("g" search-string-in-directory "Search string in dir")
-   )
+    )
    ))
 
 

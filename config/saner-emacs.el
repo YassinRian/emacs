@@ -116,3 +116,5 @@
 (setq recentf-auto-cleanup 60)
 
 (setq use-dialog-box nil)
+
+(setq dired-dwim-target t)

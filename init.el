@@ -34,20 +34,33 @@
 ;;; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ;;; Imports
 
-;; load files from Config folder
-(add-to-list 'load-path "~/.emacs.d/other-packages")
+
+;;; Package management  -*- lexical-binding: t -*-
+;;; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+;; ;; Note: package.el is disabled on early-init.el
+
+;; load-config function
 
 (defun load-config (config-file-name)
   "Load a configuration file from ./config/"
   (load (concat
          (concat (locate-user-emacs-file "config/")) config-file-name)))
 
-         
 
 ;;;
 ;;; Essentials
 (load-config "package-management.el")   	; straight.el, use-package
 (load-config "optimization.el")         	; gcmh
+
+
+;; load files from Config folder
+(add-to-list 'load-path "~/.emacs.d/other-packages")
+
+
+
+
 
 ;;;
 ;;; UX improvements
@@ -159,21 +172,21 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(fringe ((t :background "#111111")))
- '(header-line ((t :box (:line-width 4 :color "#222522" :style nil))))
- '(header-line-highlight ((t :box (:color "#cfdfd5"))))
+ '(fringe ((t :background "#1a1b26")))
+ '(header-line ((t :box (:line-width 4 :color "grey20" :style nil))))
+ '(header-line-highlight ((t :box (:color "black"))))
  '(keycast-key ((t)))
- '(line-number ((t :background "#111111")))
- '(mode-line ((t :background "#111111" :overline "#d0ffe0" :box (:line-width 4 :color "#111111" :style nil))))
- '(mode-line-active ((t :background "#111111" :overline "#d0ffe0" :box (:line-width 4 :color "#111111" :style nil))))
- '(mode-line-highlight ((t :box (:color "#cfdfd5"))))
- '(mode-line-inactive ((t :background "#111111" :overline "#808f80" :box (:line-width 4 :color "#111111" :style nil))))
- '(tab-bar-tab ((t :box (:line-width 4 :color "#111111" :style nil))))
- '(tab-bar-tab-inactive ((t :box (:line-width 4 :color "#505250" :style nil))))
+ '(line-number ((t :background "#1a1b26")))
+ '(mode-line ((t :background "#1a1b26" :overline "black" :box (:line-width 4 :color "#1a1b26" :style nil))))
+ '(mode-line-active ((t :background "#1a1b26" :overline "black" :box (:line-width 4 :color "#1a1b26" :style nil))))
+ '(mode-line-highlight ((t :box (:color "black"))))
+ '(mode-line-inactive ((t :background "#1a1b26" :overline "grey80" :box (:line-width 4 :color "#1a1b26" :style nil))))
+ '(tab-bar-tab ((t :box (:line-width 4 :color "grey85" :style nil))))
+ '(tab-bar-tab-inactive ((t :box (:line-width 4 :color "grey75" :style nil))))
  '(tab-line-tab ((t)))
  '(tab-line-tab-active ((t)))
  '(tab-line-tab-inactive ((t)))
- '(vertical-border ((t :background "#111111" :foreground "#111111")))
- '(window-divider ((t (:background "#111111" :foreground "#111111"))))
- '(window-divider-first-pixel ((t (:background "#111111" :foreground "#111111"))))
- '(window-divider-last-pixel ((t (:background "#111111" :foreground "#111111")))))
+ '(vertical-border ((t :background "#1a1b26" :foreground "#1a1b26")))
+ '(window-divider ((t (:background "#1a1b26" :foreground "#1a1b26"))))
+ '(window-divider-first-pixel ((t (:background "#1a1b26" :foreground "#1a1b26"))))
+ '(window-divider-last-pixel ((t (:background "#1a1b26" :foreground "#1a1b26")))))
