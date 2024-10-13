@@ -9,7 +9,7 @@
   (interactive)
   (let ((fit-window-to-buffer-horizontally 'only))
     (fit-window-to-buffer window nil nil max-width min-width)))
-    
+
 ;;--------------------------------------------------------
 ;; split window right (will be used for dired)
 ;; =======================================================
@@ -17,7 +17,7 @@
   (interactive)
   (split-window-right)
   (other-window 1)
- )
+  )
 
 ;;--------------------------------------------------------
 ;; split window vertical
@@ -33,24 +33,24 @@
 
 (defun only-current-buffer () 
   (interactive)                                                                   
-    (mapc 'kill-buffer (cdr (buffer-list (current-buffer)))))
+  (mapc 'kill-buffer (cdr (buffer-list (current-buffer)))))
 
 ;;--------------------------------------------------------
 ;; avy-run - this function will go to a line and a word can be searched in that line
 ;; =======================================================
 (defun yr/avy-run (arg)
-(interactive "P")
-(avy-goto-line)
-(let ((avy-all-windows nil))
-  (cl-letf (((symbol-function 'avy--find-visible-regions) (lambda (&rest args) `((,(point-at-bol) . ,(point-at-eol))))))
-    (avy-goto-char-timer arg))))
+  (interactive "P")
+  (avy-goto-line)
+  (let ((avy-all-windows nil))
+    (cl-letf (((symbol-function 'avy--find-visible-regions) (lambda (&rest args) `((,(point-at-bol) . ,(point-at-eol))))))
+      (avy-goto-char-timer arg))))
 
 (defun yr/avy-run-in-line (arg)
-(interactive "P")
-;;(avy-goto-line)			       
-(let ((avy-all-windows nil))
-  (cl-letf (((symbol-function 'avy--find-visible-regions) (lambda (&rest args) `((,(point-at-bol) . ,(point-at-eol))))))
-    (avy-goto-char-timer arg))))
+  (interactive "P")
+  ;;(avy-goto-line)			       
+  (let ((avy-all-windows nil))
+    (cl-letf (((symbol-function 'avy--find-visible-regions) (lambda (&rest args) `((,(point-at-bol) . ,(point-at-eol))))))
+      (avy-goto-char-timer arg))))
 
 
 
@@ -72,7 +72,7 @@
       (progn
 	(indent-rigidly (region-beginning) (region-end) arg)
 	(setq deactivate-mark nil))
-      (message "Region is not active")))
+    (message "Region is not active")))
 
 ;;--------------------------------------------------------
 ;; indent text left (incrementally)
@@ -84,7 +84,7 @@
       (progn
 	(indent-rigidly (region-beginning) (region-end) (- arg))
 	(setq deactivate-mark nil))
-      (message "Region is not active")))
+    (message "Region is not active")))
 
 ;;--------------------------------------------------------
 ;; widen window incrementally
@@ -101,9 +101,9 @@
 ;; =======================================================
 
 (defun delete-other-windows-except-active ()
- "Delete all other windows except the active one."
- (interactive)
- (delete-other-windows (get-buffer-window (current-buffer) t)))
+  "Delete all other windows except the active one."
+  (interactive)
+  (delete-other-windows (get-buffer-window (current-buffer) t)))
 
 ;;====================== Hooks ============================
 
@@ -112,10 +112,10 @@
 ;; switch to Eshell and change to insert-mode
 ;; =======================================================
 (defun my-switch-window-hook ()
- (interactive)
- "Function to run when switching to another window."
-    (when (equal (buffer-name) "*eshell*")
-      (boon-set-insert-state)))
+  (interactive)
+  "Function to run when switching to another window."
+  (when (equal (buffer-name) "*eshell*")
+    (boon-set-insert-state)))
 
 ;;--------------------------------------------------------
 ;; switch Grep mode to command-state mode
@@ -188,39 +188,48 @@
 ;; =======================================================
 (advice-add 'ace-window :after '(lambda (&rest args)
                                   (call-interactively 'my-switch-window-hook)))
-                                  
+
 ;;--------------------------------------------------------                                  
 ;; search files recursively !
 ;; =======================================================
 (advice-add 'dired-recent-open :after '(lambda (&rest args)
-                                   (call-interactively 'find-file-in-current-directory)))
-                                   
+					 (call-interactively 'find-file-in-current-directory)))
+
 ;;--------------------------------------------------------
 ;; open dired in vertical window
 ;; =======================================================
 ;;(advice-add 'dired-in-vertical-split :after '(lambda (&rest args)
-  ;;                                             (call-interactively 'dired)))
-                                               
+;;                                             (call-interactively 'dired)))
+
 ;;--------------------------------------------------------
 ;; consult-buffer is run after a vertical buffer is opened
 ;; =======================================================
 ;;(advice-add 'buffer-in-vertical-split :after '(lambda (&rest args)
-  ;;                                             (call-interactively 'consult-buffer)))
+;;                                             (call-interactively 'consult-buffer)))
 ;;--------------------------------------------------------
 ;; consult-buffer is run after a vertical window is opened
 ;; =======================================================
 (advice-add 'my-split-window-right :after '(lambda (&rest args)
-                                               (call-interactively 'consult-buffer)))
+                                             (call-interactively 'consult-buffer)))
 ;;--------------------------------------------------------
 ;; consult-buffer is run after a horizontal window is opened
 ;; =======================================================
 (advice-add 'my-split-window-below :after '(lambda (&rest args)
-                                          (call-interactively 'consult-buffer)))
+                                             (call-interactively 'consult-buffer)))
 ;;--------------------------------------------------------
 ;; Other window call hydra so that the switching of windows stays active
 ;; ==================================================================
 (advice-add 'other-window :after '(lambda (&rest args)
-                                          (call-interactively 'hydra-other-win/body)))
+                                    (call-interactively 'hydra-other-win/body)))
+
+;;--------------------------------------------------------
+;; after crux-smart-open-line hydra-move is opened
+;; ==================================================================
+(advice-add 'crux-smart-open-line :after '(lambda (&rest args)
+					    (call-interactively 'hydra-move/body)))
+
+(advice-add 'crux-smart-open-line-above :after '(lambda (&rest args)
+						  (call-interactively 'hydra-move/body)))
 
 ;;--------------------------------------------------------
 ;; Boon-insert is run after Wdired is activated
@@ -231,15 +240,15 @@
   (wdired-change-to-wdired-mode))
 
 (advice-add 'my-wdired :after '(lambda (&rest args)
-                                          (call-interactively 'boon-insert)))
+                                 (call-interactively 'boon-insert)))
 
 ;;--------------------------------------------------------
 ;; hulpfunctie om te checken of wdired is actief
 ;; =======================================================
 
 (defun my/check-dired-mode-active (func)
-    (if (derived-mode-p 'wdired-mode)
-	(funcall func)))
+  (if (derived-mode-p 'wdired-mode)
+      (funcall func)))
 
 
 ;;--------------------------------------------------------
@@ -252,7 +261,7 @@
   (consult-line))
 
 (advice-add 'my-consult-line :after '(lambda (&rest args)
-                                   (call-interactively 'dired-find-file)))
+                                       (call-interactively 'dired-find-file)))
 ;;--------------------------------------------------------
 ;; hulpfunctie om te checken of the entry in dired een bestand is of een directory
 ;; in geval van een bestand, dat wordt weergegeven in een nieuwe window
@@ -379,7 +388,7 @@ set to the directory chosen using `consult-dir'."
   (other-window 1))
 
 (advice-add 'my-other-window :after '(lambda (&rest args)
-                                  (call-interactively 'my-switch-window-hook)))
+                                       (call-interactively 'my-switch-window-hook)))
 
 
 ;;--------------------------------------------------------
@@ -416,6 +425,56 @@ set to the directory chosen using `consult-dir'."
     (split-window-horizontally)
     (other-window 1)
     (switch-to-buffer current-buffer)))
+
+;;=============================================================================================================
+;;--------------------------------------------------------
+;; custom function to create new file in current dir
+;; =======================================================
+
+(defun create-new-file-in-current-dir (filename)
+  "Create a new file in the current directory and open it in a buffer.
+Only prompts for the file name, and creates it in the current directory."
+  (interactive "sEnter new file name: ")
+  (let ((full-path (concat (file-name-as-directory default-directory) filename)))
+    (if (file-exists-p full-path)
+        (message "File already exists!")
+      (find-file full-path)
+      (message "Created and opened file: %s" full-path))))
+
+;;=============================================================================================================
+;;-------------------------------------------------------
+;; custom function to switch theme after deactivating previous theme
+;; =======================================================
+
+(defun switch-theme (theme)
+  "Disable current themes and load the new THEME."
+  (interactive
+   (list
+    (intern (completing-read "Load custom theme: "
+                             (mapcar 'symbol-name (custom-available-themes))))))
+  ;; Disable all active themes
+  (mapc #'disable-theme custom-enabled-themes)
+  ;; Load the new theme
+  (load-theme theme t))
+
+;;=============================================================================================================
+;;-------------------------------------------------------
+;; custom function to remove above empty line and under empty line
+;; =======================================================
+(defun remove-surrounding-empty-lines ()
+  "Remove the empty line above and/or below the point."
+  (interactive)
+  (save-excursion
+    ;; Remove the empty line above the point if it exists
+    (forward-line -1)
+    (when (looking-at-p "^[[:space:]]*$")
+      (kill-whole-line)
+      (forward-line -1))
+    
+    ;; Remove the empty line below the point if it exists
+    (forward-line 2)
+    (when (looking-at-p "^[[:space:]]*$")
+      (kill-whole-line))))
 
 
 

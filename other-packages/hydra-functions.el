@@ -145,7 +145,7 @@ TIMEOUT is the time to wait before timing out."
 
 (pretty-hydra-define hydra-windows (:color blue :quit-key "q")
   ("Actions"
-   (("x" ace-delete-window "delete")
+   (("x" delete-window "delete")
     ("a" ace-window "select" :exit nil)
     ("c" ace-swap-window "swap" :exit nil)
     ("m" delete-other-windows-except-active "maximize")
@@ -199,7 +199,7 @@ TIMEOUT is the time to wait before timing out."
    (("J" my-indent-rigidly-left "Tab left inc" :exit nil)
     (":" my-indent-rigidly-right "Tab right inc" :exit nil)
     ("TAB" indent-rigidly-right "Tab right" :exit nil)
-    ("DEL" indent-rigidly-left "Tab left")
+    ("DEL" indent-rigidly-left "Tab left" :exit nil)
     )
    "Move"
    (("I" drag-stuff-up "Move up" :exit nil)
@@ -224,6 +224,7 @@ TIMEOUT is the time to wait before timing out."
     ("K" only-current-buffer "Kill other buffers")
     ("r" rename-buffer "Rename buffer")
     ("w" write-file "Write to new file")
+    ("f" create-new-file-in-current-dir "Create new file")
     ("n" scratch "New scratch buffer"))
    ))
 
@@ -235,7 +236,8 @@ TIMEOUT is the time to wait before timing out."
     ("x" dired-ranger-move "Move" :exit nil)
     ("y" dired-ranger-paste "Paste" :exit nil)
     ("d" dired-duplicate-this-file "Duplicate" :exit nil)
-    ("e" my-wdired "Edit"))
+    ("e" my-wdired "Edit")
+    )
 
    "De/Activate x-map"
    (("a" activate-boon-x-map "Activate" :exit t)
@@ -255,18 +257,31 @@ TIMEOUT is the time to wait before timing out."
     ("r" consult-recent-file "Search recent files" :exit t)
     )
    
-   "Write current buffer to new file"
+   "Write buffer to new file"
    (
     ("w" write-file "Write to new file" :exit t)
+    ("n" create-new-file-in-current-dir "Create new file")
     )
 
    "Search"
    (
+    ("e" consult-dir "Search dirs")
     ("t" consult-find "Consult-find")
     ("g" search-string-in-directory "Search string in dir")
     )
    ))
 
+(pretty-hydra-define hydra-move (:color blue :quit-key "q")
+  (
+   "Edit lines"
+   (
+    ("i" crux-smart-open-line-above "Open line above" :exit nil)
+    ("o" crux-smart-open-line "Open line under" :exit nil)
+    ("r" remove-surrounding-empty-lines "remove empty lines" :exit nil)
+    ("j" join-line "join line" :exit nil)
+    ("d" delete-blank-lines "delete all blank lines")
+    )
+   ))
 
 
 ;;=======================

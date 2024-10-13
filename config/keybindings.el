@@ -5,7 +5,6 @@
 ;; ws phi-search
 ;; wf hydra-files
 ;; ww hydra-windows
-;; ee hydra-selection
 
 ;; (define-key boon-select-map "@"  'boon-select-occurences)
 ;; (define-key boon-select-map "*"  'boon-select-word-occurences)
@@ -33,16 +32,17 @@
       (bind-key "s" #'hydra-selection/body boon-goto-map)
       (bind-key "a" #'my-other-window boon-goto-map)
       (bind-key "v" #'vundo boon-goto-map)
+      (bind-key "e" #'eshell boon-goto-map)
 
       ;; Added to boon-moves-map
-      (bind-key "J" #'join-line boon-moves-map)                    ; S-j join-line
+      (bind-key "J" #'join-line boon-moves-map) ; S-j join-line
       (bind-key "K" #'good-scroll-down-full-screen boon-moves-map)
       (bind-key "L" #'good-scroll-up-full-screen boon-moves-map)
       (bind-key "f" #'yr/avy-run-in-line boon-moves-map)
       (bind-key "F" #'avy-goto-char-timer boon-moves-map)
       (bind-key "h" #'boon-splice boon-moves-map)
       (bind-key "H" #'yank-pop boon-moves-map)
-
+      
       ;; Added to Boon-backward-search-map -- w
       (bind-key "w" #'hydra-windows/body boon-backward-search-map) ; w-w Windows menu
       (bind-key "f" #'hydra-files/body boon-backward-search-map)   ; w-f File menu
@@ -92,7 +92,6 @@
 		 ("SPC" . hydra-buffers/body)
 		 ("f" . hydra-files/body)
 		 ("a" . crux-open-with))
-
 
       
       (defun activate-boon-x-map ()
