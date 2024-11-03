@@ -70,7 +70,7 @@
     ("C-<backspace>" . vertico-directory-up)
     ))
 
-  ;; Init vertico-multiform for per command vertico configuration
+;; Init vertico-multiform for per command vertico configuration
 (use-package vertico-multiform
   :after vertico
   :ensure nil
@@ -172,16 +172,16 @@
 (use-package avy
   :init
   (setq avy-keys-alist
-		`((avy-goto-char-2			. (?j ?k ?l ?f ?s ?d ?e ?r ?u ?i))
-		  (avy-goto-word-1			. (?j ?k ?l ?f ?s ?d ?e ?r ?u ?i))
-		  (avy-goto-char-in-line	. (?j ?k ?l ?f ?s ?d ?e ?r ?u ?i))
-		  (avy-goto-char-2-above	. (?j ?k ?l ?f ?s ?d ?e ?r ?u ?i))
-		  (avy-goto-char-2-below	. (?j ?k ?l ?f ?s ?d ?e ?r ?u ?i))
-		  (avy-goto-char-timer  	. (?j ?k ?l ?f ?s ?d ?e ?r ?u ?i))
-		  (avy-goto-line			. (?j ?k ?l ?f ?s ?d ?e ?r ?u ?i))))
+	`((avy-goto-char-2			. (?j ?k ?l ?f ?s ?d ?e ?r ?u ?i))
+	  (avy-goto-word-1			. (?j ?k ?l ?f ?s ?d ?e ?r ?u ?i))
+	  (avy-goto-char-in-line	. (?j ?k ?l ?f ?s ?d ?e ?r ?u ?i))
+	  (avy-goto-char-2-above	. (?j ?k ?l ?f ?s ?d ?e ?r ?u ?i))
+	  (avy-goto-char-2-below	. (?j ?k ?l ?f ?s ?d ?e ?r ?u ?i))
+	  (avy-goto-char-timer  	. (?j ?k ?l ?f ?s ?d ?e ?r ?u ?i))
+	  (avy-goto-line			. (?j ?k ?l ?f ?s ?d ?e ?r ?u ?i))))
   
-   :custom
-   (avy-timeout-seconds 0.3 "The default is too long."))
+  :custom
+  (avy-timeout-seconds 0.3 "The default is too long."))
 ;;====================================
 ;; Crux
 ;;
@@ -213,6 +213,7 @@
 (require 'fzf)
 (require 'sk-org)
 (require 'eglot-java)
+
 ;;====================================
 ;; Recent files
 ;;
@@ -246,13 +247,13 @@
 ;;====================================
 (use-package consult
   :ensure t)
-  
+
 (use-package consult-dir
   :ensure t
   :config
   (setq consult-dir-default-command #'consult-dir-dired) ;; default was find-file, maar deze is beter
-)
-  
+  )
+
 ;; =============== Good-Scroll  ============================
 ;;
 ;; =================================================
@@ -378,20 +379,16 @@
   :config
   ;; Global settings (defaults)
   (setq doom-themes-enable-bold t doom-themes-enable-italic t)
-    (doom-themes-visual-bell-config)
-    (doom-themes-org-config))
+  (doom-themes-visual-bell-config)
+  (doom-themes-org-config))
 
 (use-package scratch)
 
 (use-package affe :defer t)
 
-(use-package direnv
- :config
- (direnv-mode))
-
 ;; nodig voor de copy, move, past functie in dired
 (use-package dired-ranger)
-  
+
 (use-package which-key
   :defer 0.2
   :delight

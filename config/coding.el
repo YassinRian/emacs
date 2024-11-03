@@ -1,6 +1,29 @@
 ;;; Coding.el           -*- lexical-binding: t -*-
 ;;; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+
+;;====================================
+;; This package imports environment variables from your shell into Emacs,
+;; which is especially helpful on macOS or Linux systems.
+;;
+;;====================================
+
+(use-package exec-path-from-shell
+  :ensure t
+  :config
+  (exec-path-from-shell-initialize))
+
+
+;;====================================
+;; The direnv Emacs package can help Emacs recognize direnv environments
+;; automatically when you open files in a directory with an .envrc file.
+;;====================================
+
+(use-package direnv
+  :ensure t
+  :config
+  (direnv-mode))
+
 ;;====================================
 ;; Smartparens
 ;;
@@ -528,3 +551,11 @@
   (setf (alist-get 'prettier-json apheleia-formatters)
         '("prettier" "--stdin-filepath" filepath))
   (apheleia-global-mode +1))
+
+
+;; Kawa
+;; (setq geiser-active-implementations '(kawa))
+;; (setq geiser-kawa-binary "/home/yassin/kawa/bin/kawa_wrapper")
+;; (setq geiser-kawa-init-file "~/.geiser-kawa-init.scm")
+;; (setq geiser-repl-startup-commands
+;;       '(("env" "kawa")))

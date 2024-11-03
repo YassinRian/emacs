@@ -24,10 +24,11 @@
       ;; Added to BOON-INSERT-MAP
       (bind-key ";" '(lambda () (interactive) (my-temporary-hydra-wrapper ?\; #'my-example-hydra/body 0.3)) boon-insert-map)
       (bind-key ";" '(lambda () (interactive) (my-temporary-hydra-wrapper ?\; #'hydra-vertico/body 0.3)) vertico-map)
-      (bind-key "f" #'hydra-change-mode/body boon-insert-map) ;; the better solution
+      (bind-key "f" #'hydra-change-mode/body boon-insert-map) ;; the better solution for switching to boon-set-command-state
+      
 
-      ;; Added to BOON-GOTO-MAP -- g
-      (bind-key "g" #'consult-buffer boon-goto-map)                ; g-g seach buffer
+      ;; Added to BOON-GoTO-MAP -- g
+      (bind-key "g" #'switch-to-buffer boon-goto-map)              ; g-g seach buffer
       (bind-key "l" #'yr/avy-run boon-goto-map)                    ; g-l gotoline and search word
       (bind-key "s" #'hydra-selection/body boon-goto-map)
       (bind-key "a" #'my-other-window boon-goto-map)
@@ -38,7 +39,8 @@
       (bind-key "J" #'join-line boon-moves-map) ; S-j join-line
       (bind-key "K" #'good-scroll-down-full-screen boon-moves-map)
       (bind-key "L" #'good-scroll-up-full-screen boon-moves-map)
-      (bind-key "f" #'yr/avy-run-in-line boon-moves-map)
+      (bind-key "f" #'avy-goto-char-in-line boon-moves-map)
+      ;;(bind-key "f" #'yr/avy-run-in-line boon-moves-map)
       (bind-key "F" #'avy-goto-char-timer boon-moves-map)
       (bind-key "h" #'boon-splice boon-moves-map)
       (bind-key "H" #'yank-pop boon-moves-map)

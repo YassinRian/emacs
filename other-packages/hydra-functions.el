@@ -217,7 +217,10 @@ TIMEOUT is the time to wait before timing out."
     ("SPC" crux-switch-to-previous-buffer "Toggle prev buffer"))
 
    "Open in other Win"
-   (("b" split-window-right "Open buffer"))
+   (
+    ("b" my-split-window-right "Open buffer right")
+    ("d" duplicate-and-split-window-horizontally "duplicate")
+    )
 
    "buffer funcs"
    (("k" kill-buffer "Close buffer")
