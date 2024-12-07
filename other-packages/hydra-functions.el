@@ -99,14 +99,16 @@ TIMEOUT is the time to wait before timing out."
 (defhydra my-example-hydra (:hint nil :idle 2)
 
   ("f" (progn (setq my-temporary-hydra-option-selected t) (forward-char)) :exit nil)
-  ("d" (progn (setq my-temporary-hydra-option-selected t) (backward-char)) :exit nil)
-  ("a" (progn (setq my-temporary-hydra-option-selected t) (boon-beginning-of-line)) :exit t)
-  ("e" (progn (setq my-temporary-hydra-option-selected t) (boon-end-of-line)) :exit t)
+  ("a" (progn (setq my-temporary-hydra-option-selected t) (backward-char)) :exit nil)
+  ;;("a" (progn (setq my-temporary-hydra-option-selected t) (boon-beginning-of-line)) :exit t)
+  ;;("e" (progn (setq my-temporary-hydra-option-selected t) (boon-end-of-line)) :exit t)
   ("w" (progn (setq my-temporary-hydra-option-selected t) (boon-open-line-and-insert)) :exit t)
   ("s" (progn (setq my-temporary-hydra-option-selected t) (boon-open-next-line-and-insert)) :exit nil)
-  ("j" (progn (setq my-temporary-hydra-option-selected t) (undo)) :exit nil)
+  ;;("j" (progn (setq my-temporary-hydra-option-selected t) (undo)) :exit nil)
   ("F" (progn (setq my-temporary-hydra-option-selected t) (delete-next-char)) :exit nil)
   (";" (progn (setq my-temporary-hydra-option-selected t) (insert ";")) :exit t)
+  ("h" (progn (setq my-temporary-hydra-option-selected t) (tempel-next)) :exit t)
+  ("g" (progn (setq my-temporary-hydra-option-selected t) (tempel-previous)) :exit t)
   )
 
 

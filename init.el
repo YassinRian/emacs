@@ -196,11 +196,31 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   '("0329ea10651dd1ff99f9243947f1a339a5030141f546919b4e2e0cca791f663b" "d6b934330450d9de1112cbb7617eaf929244d192c4ffb1b9e6b63ad574784aad" "6f1f6a1a3cff62cc860ad6e787151b9b8599f4471d40ed746ea2819fcd184e1a" "4ade6b630ba8cbab10703b27fd05bb43aaf8a3e5ba8c2dc1ea4a2de5f8d45882" "8d3ef5ff6273f2a552152c7febc40eabca26bae05bd12bc85062e2dc224cde9a" "4e2e42e9306813763e2e62f115da71b485458a36e8b4c24e17a2168c45c9cf9d" "7ec8fd456c0c117c99e3a3b16aaf09ed3fb91879f6601b1ea0eeaee9c6def5d9" "0cd9a37b7d1a96f2e3fa8886343e3b5ea191687dbfa293ff818f953308dd9779" "ec8ff5e2c8a9eb38e49a9bea6297c2194bbe0c03982630d66db1570f5ae83d90" "baf6946d46390fd34b5f92b778be544c7dc1286bafb81c314dc7ee8e3f8875d3" "8cf8f08741be235cee6eefb96406b413ec613659eb8bf4ad401b1e5e0d6021ef" "98f6151faaa5f8f9eceb007fb038b2e8ea61d502283f8fd81fce27da3b6bced5" "a9eeab09d61fef94084a95f82557e147d9630fbbb82a837f971f83e66e21e5ad" "8c7e832be864674c220f9a9361c851917a93f921fedb7717b1b5ece47690c098" "2ca3da7d36b0d326f984530a07be54b272b5c313b1361989acf747d8b5616162" "80214de566132bf2c844b9dee3ec0599f65c5a1f2d6ff21a2c8309e6e70f9242" "821c37a78c8ddf7d0e70f0a7ca44d96255da54e613aa82ff861fe5942d3f1efc" default))
+   '("57768f63a6be7da78ab5f53e4b2f9ff2b7486e9c2b16fbc48ef09fd3e5ebe55d"
+     "0329ea10651dd1ff99f9243947f1a339a5030141f546919b4e2e0cca791f663b"
+     "d6b934330450d9de1112cbb7617eaf929244d192c4ffb1b9e6b63ad574784aad"
+     "6f1f6a1a3cff62cc860ad6e787151b9b8599f4471d40ed746ea2819fcd184e1a"
+     "4ade6b630ba8cbab10703b27fd05bb43aaf8a3e5ba8c2dc1ea4a2de5f8d45882"
+     "8d3ef5ff6273f2a552152c7febc40eabca26bae05bd12bc85062e2dc224cde9a"
+     "4e2e42e9306813763e2e62f115da71b485458a36e8b4c24e17a2168c45c9cf9d"
+     "7ec8fd456c0c117c99e3a3b16aaf09ed3fb91879f6601b1ea0eeaee9c6def5d9"
+     "0cd9a37b7d1a96f2e3fa8886343e3b5ea191687dbfa293ff818f953308dd9779"
+     "ec8ff5e2c8a9eb38e49a9bea6297c2194bbe0c03982630d66db1570f5ae83d90"
+     "baf6946d46390fd34b5f92b778be544c7dc1286bafb81c314dc7ee8e3f8875d3"
+     "8cf8f08741be235cee6eefb96406b413ec613659eb8bf4ad401b1e5e0d6021ef"
+     "98f6151faaa5f8f9eceb007fb038b2e8ea61d502283f8fd81fce27da3b6bced5"
+     "a9eeab09d61fef94084a95f82557e147d9630fbbb82a837f971f83e66e21e5ad"
+     "8c7e832be864674c220f9a9361c851917a93f921fedb7717b1b5ece47690c098"
+     "2ca3da7d36b0d326f984530a07be54b272b5c313b1361989acf747d8b5616162"
+     "80214de566132bf2c844b9dee3ec0599f65c5a1f2d6ff21a2c8309e6e70f9242"
+     "821c37a78c8ddf7d0e70f0a7ca44d96255da54e613aa82ff861fe5942d3f1efc"
+     default))
  '(package-selected-packages
-   '(geiser-kawa geiser-guile geiser visual-fill-column eglot-booster clojure-ts-mode clojure-mode))
+   '(geiser-kawa geiser-guile geiser visual-fill-column eglot-booster
+		 clojure-ts-mode clojure-mode))
  '(package-vc-selected-packages
-   '((eglot-booster :vc-backend Git :url "https://github.com/jdtsmith/eglot-booster")))
+   '((eglot-booster :vc-backend Git :url
+		    "https://github.com/jdtsmith/eglot-booster")))
  '(send-mail-function 'mailclient-send-it))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

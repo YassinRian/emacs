@@ -328,14 +328,6 @@
 ;;
 ;; =================================================
 
-(use-package yasnippet
-  :diminish yas-minor-mode
-  :custom (yas-snippet-dirs '("~/.emacs.d/snippets"))
-  :hook (after-init . yas-global-mode))
-;; =============== Good-Scroll  ============================
-;;
-;; =================================================
-
 (use-package google-translate
   :bind
   ("M-o t" . google-translate-at-point)

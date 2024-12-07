@@ -25,7 +25,6 @@
       (bind-key ";" '(lambda () (interactive) (my-temporary-hydra-wrapper ?\; #'my-example-hydra/body 0.3)) boon-insert-map)
       (bind-key ";" '(lambda () (interactive) (my-temporary-hydra-wrapper ?\; #'hydra-vertico/body 0.3)) vertico-map)
       (bind-key "f" #'hydra-change-mode/body boon-insert-map) ;; the better solution for switching to boon-set-command-state
-      
 
       ;; Added to BOON-GoTO-MAP -- g
       (bind-key "g" #'switch-to-buffer boon-goto-map)              ; g-g seach buffer
